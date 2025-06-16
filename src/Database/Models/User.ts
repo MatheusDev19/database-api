@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../Config/database';
+import bcrypt from 'bcrypt';
 
 export class User extends Model {
   declare id: number;
@@ -38,13 +39,18 @@ User.init(
   }
 );
 
-User.sync({ alter: true }) // Tenta alterar a estrutura da tabela para bater com o modelo atual.
+User.beforeCreate(async (user: User) => {
+  if (user.password) {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+  }
+});
 
-  .then(() => {
-    console.log('🟢 Modelo User sincronizado com sucesso!');
-  })
-  .catch((error) => {
-    console.error('🔴 Erro ao sincronizar o modelo User:', error);
-  });
+User.beforeUpdate(async (user) => {
+  if (user.changed('password')) {
+    const salt = await bcrypt.genSalt(10);
+    user.setDataValue('password', await bcrypt.hash(user.password, salt));
+  }
+});
 
 export default User;

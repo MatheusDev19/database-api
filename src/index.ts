@@ -10,8 +10,7 @@ const PORT = 3000;
 
 server.get('/', (req: Request, res: Response) => {
   res.status(200).json({ message: 'API is running!', userModel: User });
-}); 
-
+});
 
 server.listen(PORT, async () => {
   try {
