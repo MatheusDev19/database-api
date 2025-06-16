@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { sequelize } from './Config/database';
-import User from './Models/User';
+import User from './Database/Models/User';
 import cors from 'cors';
 
 const server = express();
