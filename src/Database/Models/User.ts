@@ -11,8 +11,8 @@ export class User extends Model {
 User.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     name: {
@@ -22,6 +22,7 @@ User.init(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -33,6 +34,7 @@ User.init(
     timestamps: true, // Adiciona createdAt e updatedAt;
     modelName: 'User', // Nome do modelo, por padrão será o nome da classe;
     tableName: 'users', // Nome da tabela no banco de dados;
+    paranoid: true, // Adiciona deletedAt para soft delete;
   }
 );
 
