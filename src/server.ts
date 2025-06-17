@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { sequelize } from './Config/database';
-import { UserService } from './Services/User.service';
+import { userRouters } from './Routes/User.routes';
 import cors from 'cors';
 
 const server = express();
@@ -12,16 +12,7 @@ server.get('/', (req: Request, res: Response) => {
   res.send('Olá do backend. Conexão bem sucedida!');
 });
 
-server.post('/users', async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
-  try {
-    const user = await UserService.createUser(name, email, password);
-    res.status(201).json(user);
-  } catch (error) {
-    console.error('Erro ao criar usuário:', error);
-    res.status(500).json({ error: 'Erro ao criar usuário' });
-  }
-});
+server.use('/users', userRouters);
 
 server.listen(PORT, async () => {
   try {
