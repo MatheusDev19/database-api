@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import { sequelize } from './Config/database';
-import User from './Database/Models/User';
 import cors from 'cors';
 
 const server = express();
@@ -9,7 +8,7 @@ server.use(express.json());
 const PORT = 3000;
 
 server.get('/', (req: Request, res: Response) => {
-  res.status(200).json({ message: 'API is running!', userModel: User });
+  res.send('Olá do backend. Conexão bem sucedida!');
 });
 
 server.listen(PORT, async () => {
